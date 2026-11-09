@@ -21,9 +21,13 @@ const listAllCats = () => catItems;
 
 const findCatById = (id) => catItems.find((item) => item.cat_id === Number(id));
 
-const addCat = (cat) => {
+const addCat = (cat, filename) => {
   const newId = Math.max(0, ...catItems.map((item) => item.cat_id)) + 1;
-  catItems.unshift({ ...cat, cat_id: newId });
+  catItems.unshift({
+    ...cat,
+    ...(filename && { filename }),
+    cat_id: newId,
+  });
   return { cat_id: newId };
 };
 

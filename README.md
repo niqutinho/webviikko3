@@ -20,7 +20,10 @@ the JavaScript files under `src/` with Prettier.
 
 - `GET /api/v1/cats` and `GET /api/v1/users` return all cats and users.
 - `GET /api/v1/cats/:id` and `GET /api/v1/users/:id` return one item by ID.
-- `POST /api/v1/cats` and `POST /api/v1/users` add an item in memory.
+- `POST /api/v1/cats` accepts a `multipart/form-data` form with a file in the
+  `cat` field, saves the uploaded file under `uploads/`, and adds the cat in
+  memory with Multer's generated filename. `POST /api/v1/users` adds an item
+  in memory.
 - `PUT` and `DELETE /api/v1/cats/:id` and `/api/v1/users/:id` return the
   assignment's hard-coded confirmation messages.
 - `GET /public/söpökisaa.jpg` serves the sample image from `public`.
