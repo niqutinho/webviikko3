@@ -1,11 +1,12 @@
 import express from "express";
 import "dotenv/config";
+import api from "./api/index.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Middleware JSON-datan lukemiseen
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));
 app.use("/public", express.static("public"));
 
@@ -37,20 +38,6 @@ app.post("/api/resource", (req, res) => {
   });
 });
 
-app.get("/api/v1/cats", (req, res) => {
-  const cat = {
-    cat_id: 1,
-    name: "Milo",
-    birthdate: "2022-05-15",
-    weight: 4.5,
-    owner: "Niklas",
-    image: "https://loremflickr.com/320/240/cat",
-  };
+app.use("/api/v1", api);
 
-  res.json(cat);
-});
-
-// Käynnistä palvelin
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+export default app;
