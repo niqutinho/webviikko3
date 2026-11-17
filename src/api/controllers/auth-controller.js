@@ -3,28 +3,32 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { findUserByUsername } from "../models/user-model.js";
 
-const getMe = async (req, res) => {
+const getMe = async (req, res, next) => {
   if (res.locals.user) {
     res.json({ message: "token ok", user: res.locals.user });
     return;
   }
 
-  res.sendStatus(401);
+  const error = new Error("Authentication required");
+  error.status = 401;
+  next(error);
 };
 
-const postLogin = async (req, res) => {
+const postLogin = async (req, res, next) => {
   const { username, password } = req.body;
   const user = await findUserByUsername(username);
 
   if (!user) {
-    res.sendStatus(401);
-    return;
+    const error = new Error("Invalid username or password");
+    error.status = 401;
+    return next(error);
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
-    res.sendStatus(401);
-    return;
+    const error = new Error("Invalid username or password");
+    error.status = 401;
+    return next(error);
   }
 
   const userWithNoPassword = {

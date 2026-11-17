@@ -32,10 +32,13 @@ the JavaScript files under `src/` with Prettier.
 - `GET /api/v1/cats/:id` and `GET /api/v1/users/:id` return one item by ID.
 - `GET /api/v1/cats/user/:id` returns the cats belonging to the given user.
 - `POST /api/v1/cats` accepts a `multipart/form-data` form with a file in the
-  `cat` field, saves the uploaded file under `uploads/`, and stores the cat in
-  MySQL with Multer's generated filename. `POST /api/v1/users` stores a user in
-  MySQL.
+  `file` field (the legacy `cat` field is also accepted; images and videos up
+  to 10 MB). A bearer token is required. The file is saved under `uploads/`,
+  and the cat is stored in MySQL with Multer's generated filename.
+  `POST /api/v1/users` validates and stores a user in MySQL.
 - `PUT` and `DELETE /api/v1/cats/:id` and `/api/v1/users/:id` update and delete
   database records. Deleting a user also deletes their cats in a transaction.
+- Invalid request data and route errors return JSON with an `error` object
+  containing a message and HTTP status.
 - `GET /public/söpökisaa.jpg` serves the sample image from `public`.
 - `GET /` serves the welcome page.

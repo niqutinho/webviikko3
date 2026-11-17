@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import api from "./api/index.js";
+import { errorHandler, notFoundHandler } from "./middlewares/error-handlers.js";
 
 const app = express();
 
@@ -39,5 +40,8 @@ app.post("/api/resource", (req, res) => {
 });
 
 app.use("/api/v1", api);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;
